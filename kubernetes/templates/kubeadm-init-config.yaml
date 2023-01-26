@@ -1,0 +1,38 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+bootstrapTokens:
+- token: "${token}"
+  description: "default kubeadm bootstrap token"
+  ttl: "0"
+localAPIEndpoint:
+  advertiseAddress: ${master_ip_pri}
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: ${kubernetes_v}
+clusterName: ${kluster_name}
+controlPlaneEndpoint: ${master_ip}:6443
+certificatesDir: "/etc/kubernetes/pki"
+networking:
+  podSubnet: 10.244.0.0/16
+apiServer:
+  certSANs:
+  - ${master_ip}
+  - ${master_ip_pri}
+
+  # https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
+  extraArgs:
+    max-requests-inflight: "1000"
+    max-mutating-requests-inflight: "500"        
+    default-watch-cache-size: "500"
+    watch-cache-sizes: "persistentvolumeclaims#1000,persistentvolumes#1000"
+
+#controllerManager:
+  # https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/
+  #extraArgs:
+   # deployment-controller-sync-period: "50s"
+# scheduler:
+#   # https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/
+#   extraArgs:
+#     address: 0.0.0.0
