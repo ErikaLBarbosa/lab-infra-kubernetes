@@ -1,6 +1,8 @@
 #!/bin/bash
+# Autor: Erika Barbosa
+# Descrição: Realizar o update da ec2 (amazon linux), fazer configurações pré-rec para utilizar o kubernetes,
+# instalar -> Kubamd, Kubelet, Kubectl, Helm
 
-#verificar se o toml foi passado
 echo "***************************************************"
 echo "*******INICIANDO A CONFIGURAÇÃO DA MÁQUINA*********"
 echo "***************************************************"
